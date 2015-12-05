@@ -5,6 +5,7 @@
     width: 700,
     nEnemies: 30,
     padding: 20
+
   }
 
 
@@ -43,6 +44,8 @@ var svgcontainer = d3.select('.board')
   .attr('width' ,gameOptions.width)
   .attr('height', gameOptions.height)
   .attr('class','container');
+ 
+
 
 var player = svgcontainer
     .selectAll('.players')
@@ -57,13 +60,21 @@ var player = svgcontainer
     .attr('class','player')
     .call(drag)
 
-  var width = 240,
-    height = 125,
-    radius = 20;
+
+function myFunction(e) {
+  var obj = {};
+    obj.x = e.clientX;
+    obj.y = e.clientY;
+    return obj;
+    
+  
+}
+
+
 function dragmove(d) {
   d3.select(this)
-      .attr("cx", d.x = Math.max(, Math.min(width - radius, d3.event.x)))
-      .attr("cy", d.y = Math.max(radius, Math.min(height - radius, d3.event.y)));
+      .attr("cx", document.getElementByClassName.getAttribute('onmousemove').x)
+      .attr("cy", document.getElementByClassName.getAttribute('onmousemove').y);
 }
 
 
@@ -79,6 +90,7 @@ var enem = svgcontainer
     .attr('r',7)
     .style('fill','purple')
     .attr('class','enemy');
+
 
 
 var moveEnemies = function(){
