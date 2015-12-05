@@ -10,13 +10,16 @@
 
 
 
+var width = 240,
+    height = 125,
+    radius = 20;
 
 var Enemies = function(id){
-   
+
   this.id=id,
   this.cx= Math.random() * gameOptions.width,
   this.cy= Math.random() * gameOptions.height
-    
+
 };
 
 var createEnemies = function(numberOfEnemies){
@@ -28,9 +31,7 @@ var createEnemies = function(numberOfEnemies){
   return arr;
 
 }
-var drag = d3.behavior.drag()
-    .origin(function(d) { return d; })
-    .on("drag", dragmove);
+
 
 var Player = function(){
   this.cx = gameOptions.width/2;
@@ -44,37 +45,34 @@ var svgcontainer = d3.select('.board')
   .attr('width' ,gameOptions.width)
   .attr('height', gameOptions.height)
   .attr('class','container');
- 
+
+var drag = d3.behavior.drag()
+             .on('dragstart', function() { circle.style('fill', 'red'); })
+             .on('drag', function() { circle.attr('cx', d3.event.x)
+                                            .attr('cy', d3.event.y); })
+             .on('dragend', function() { circle.style('fill', 'black'); });
 
 
-var player = svgcontainer
-    .selectAll('.players')
-    .data([new Player()])
-    .enter()
-    .append('svg')
-    .append('circle')
-    .attr('cx', function(d){return d.cx})
-    .attr('cy', function(d){return d.cy})
-    .attr('r',20)
-    .style('fill','red')
-    .attr('class','player')
-    .call(drag)
+var circle = svgcontainer.selectAll('.draggableCircle')
+                .data([{ x: (gameOptions.width / 2), y: (gameOptions.height / 2), r: 7 }])
+                .enter()
+                .append('svg:circle')
+                .attr('class', 'draggableCircle')
+                .attr('cx', function(d) { return d.x; })
+                .attr('cy', function(d) { return d.y; })
+                .attr('r', function(d) { return d.r; })
+                .call(drag)
+                .style('fill', 'black');
 
 
-function myFunction(e) {
-  var obj = {};
-    obj.x = e.clientX;
-    obj.y = e.clientY;
-    return obj;
-    
-  
-}
+
+
 
 
 function dragmove(d) {
   d3.select(this)
-      .attr("cx", document.getElementByClassName.getAttribute('onmousemove').x)
-      .attr("cy", document.getElementByClassName.getAttribute('onmousemove').y);
+      .attr("cx", 200)
+      .attr("cy", 200);
 }
 
 
@@ -116,7 +114,7 @@ setInterval(function(){
 
 
 
-      
+
 
 }).call(this);
 
