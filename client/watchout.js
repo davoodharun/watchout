@@ -54,7 +54,7 @@ var drag = d3.behavior.drag()
 
 
 var circle = svgcontainer.selectAll('.draggableCircle')
-                .data([{ x: (gameOptions.width / 2), y: (gameOptions.height / 2), r: 20 }])
+                .data([{ x: (gameOptions.width / 2), y: (gameOptions.height / 2), r: 7 }])
                 .enter()
                 .append('svg:circle')
                 .attr('class', 'draggableCircle')
@@ -118,24 +118,50 @@ setInterval(function(){
 
 
 }).call(this);
+  var highscore = 0;
+  var collisions = 0;
+  var score = 0;
+  var checkCollisions = function(){
+   // debugger;
+    var enemies = document.getElementsByClassName('enemy')
 
-var checkCollisions = function(){
- // debugger;
-  var enemies = document.getElementsByClassName('enemy')
+   
+   
+    var playerX = Number(document.getElementsByClassName('draggableCircle')[0].getAttribute('cx'));
+    var playerY = Number(document.getElementsByClassName('draggableCircle')[0].getAttribute('cy'));
 
- 
- 
-  var playerX = Number(document.getElementsByClassName('draggableCircle')[0].getAttribute('cx'));
-  var playerY = Number(document.getElementsByClassName('draggableCircle')[0].getAttribute('cy'));
+    for(var i =0; i<enemies.length;i++){
+      var x = enemies[i].getAttribute('cx')
+      var y = enemies[i].getAttribute('cy')
+      if(Math.abs(x-playerX)<=7 && Math.abs(y-playerY)<=10) {
+        if(score > highscore){
+          highscore = score;
+          d3.selectAll('.hscore')
+          .data([highscore])
+          .text(function(d){ return d })
+        }
+        score = 0;
 
-  for(var i =0; i<enemies.length;i++){
-    var x = enemies[i].getAttribute('cx')
-    var y = enemies[i].getAttribute('cy')
-    if(Math.abs(x-playerX)<=20 && Math.abs(y-playerY)<=20) {
-      alert('collision')
-    }
-  } 
+         d3.selectAll('.col')
+          .data([collisions++])
+          .text(function(d){ return d })  
 
-};
+      }
+    } 
 
-setInterval(checkCollisions, 10);
+  };
+
+  setInterval(checkCollisions, 50);
+
+
+
+  var scoreTimes = function(){
+
+
+    d3.selectAll('.cur')
+      .data([score++])
+      .text(function(d){ return d })  
+
+  }
+
+setInterval(scoreTimes, 100);
