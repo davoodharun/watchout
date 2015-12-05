@@ -48,13 +48,13 @@ var svgcontainer = d3.select('.board')
 
 var drag = d3.behavior.drag()
              .on('dragstart', function() { circle.style('fill', 'red'); })
-             .on('drag', function() { circle.attr('cx', d3.event.x)
-                                            .attr('cy', d3.event.y); })
+             .on('drag', function() { circle.attr('cx', Math.min(Math.max(10,d3.event.x),Math.min(gameOptions.width,690)))
+                                            .attr('cy', Math.min(Math.max(10,d3.event.y),Math.min(gameOptions.height,440))); })
              .on('dragend', function() { circle.style('fill', 'black'); });
 
 
 var circle = svgcontainer.selectAll('.draggableCircle')
-                .data([{ x: (gameOptions.width / 2), y: (gameOptions.height / 2), r: 7 }])
+                .data([{ x: (gameOptions.width / 2), y: (gameOptions.height / 2), r: 20 }])
                 .enter()
                 .append('svg:circle')
                 .attr('class', 'draggableCircle')
@@ -116,6 +116,26 @@ setInterval(function(){
 
 
 
+
 }).call(this);
 
+var checkCollisions = function(){
+ // debugger;
+  var enemies = document.getElementsByClassName('enemy')
 
+ 
+ 
+  var playerX = Number(document.getElementsByClassName('draggableCircle')[0].getAttribute('cx'));
+  var playerY = Number(document.getElementsByClassName('draggableCircle')[0].getAttribute('cy'));
+
+  for(var i =0; i<enemies.length;i++){
+    var x = enemies[i].getAttribute('cx')
+    var y = enemies[i].getAttribute('cy')
+    if(Math.abs(x-playerX)<=20 && Math.abs(y-playerY)<=20) {
+      alert('collision')
+    }
+  } 
+
+};
+
+setInterval(checkCollisions, 10);
