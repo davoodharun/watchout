@@ -28,6 +28,12 @@ var createEnemies = function(numberOfEnemies){
 
 }
 
+var Player = function(){
+  this.cx = gameOptions.width/2;
+  this.cy = gameOptions.height/2;
+}
+
+
 
 
 var svgcontainer = d3.select('.board')
@@ -36,7 +42,17 @@ var svgcontainer = d3.select('.board')
   .attr('height', gameOptions.height)
   .attr('class','container');
 
-
+var player = svgcontainer
+    .selectAll('.players')
+    .data([new Player()])
+    .enter()
+    .append('svg')
+    .append('circle')
+    .attr('cx', function(d){return d.cx})
+    .attr('cy', function(d){return d.cy})
+    .attr('r',20)
+    .style('fill','red')
+    .attr('class','player');
 
 
 var enem = svgcontainer
@@ -48,7 +64,9 @@ var enem = svgcontainer
     .attr('cx', function(d){return d.cx})
     .attr('cy', function(d){return d.cy})
     .attr('r',7)
-    .style('fill','purple');
+    .style('fill','purple')
+    .attr('class','enemy');
+
 
 var moveEnemies = function(){
 
@@ -64,36 +82,12 @@ var moveEnemies = function(){
 moveEnemies();
 setInterval(function(){
   moveEnemies();
-},4000)
+},4500)
 
   var gameStats = {
     score: 0,
     bestScore: 0,
   }
-
-
-
-
-
-  // var circle = svgcontainer
-  //   .append('svg')
-  //   .append('circle')
-  //   .attr('cx',50)
-  //   .attr('cy',25)
-  //   .attr('r',10)
-  //   .style('fill','purple');
-
-  // var axes = {
-  //   x: d3.scale.linear().domain([0,100]).range([0,gameOptions.width]),
-  //   y: d3.scale.linear().domain([0,100]).range([0,gameOptions.height])
-  // }
-
-
- 
-
-
-
-
 
 
 
