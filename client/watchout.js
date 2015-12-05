@@ -27,12 +27,14 @@ var createEnemies = function(numberOfEnemies){
   return arr;
 
 }
+var drag = d3.behavior.drag()
+    .origin(function(d) { return d; })
+    .on("drag", dragmove);
 
 var Player = function(){
   this.cx = gameOptions.width/2;
   this.cy = gameOptions.height/2;
 }
-
 
 
 
@@ -52,7 +54,18 @@ var player = svgcontainer
     .attr('cy', function(d){return d.cy})
     .attr('r',20)
     .style('fill','red')
-    .attr('class','player');
+    .attr('class','player')
+    .call(drag)
+
+  var width = 240,
+    height = 125,
+    radius = 20;
+function dragmove(d) {
+  d3.select(this)
+      .attr("cx", d.x = Math.max(, Math.min(width - radius, d3.event.x)))
+      .attr("cy", d.y = Math.max(radius, Math.min(height - radius, d3.event.y)));
+}
+
 
 
 var enem = svgcontainer
@@ -73,7 +86,7 @@ var moveEnemies = function(){
   return enem
   .data(createEnemies(gameOptions.nEnemies))
       .transition()
-      .duration(4500)
+      .duration(3000)
       .attr('cx', function(d){return d.cx})
       .attr('cy', function(d){return d.cy})
 
@@ -82,7 +95,7 @@ var moveEnemies = function(){
 moveEnemies();
 setInterval(function(){
   moveEnemies();
-},4500)
+},3000)
 
   var gameStats = {
     score: 0,
