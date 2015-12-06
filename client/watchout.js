@@ -148,8 +148,28 @@ setInterval(function(){
           .text(function(d){ return d })
         }
         score = 0;
+        // var explosionSpecs =[
+        // {
+        //     transitionT: 1000,
+        //     startR:20,
+        //     color: '#680000',
+        //     finalR: 800,  
+        // },
+        // { 
+        //     transitionT: 1000
+        //     startR:40,
+        //     color: '#880000' 
+        //     finalR: 0, 
+        // },
+        // {
+        //     transitionT: 1000,
+        //     startR:60,
+        //     color: '#FF0000',
+              
+        // }
+        // ]
         var explosion = svgcontainer.selectAll('.explosions')
-            .data([0])
+            .data([20,40,60])
             .enter()
             .append('svg:circle')
             .attr('cx', playerX)
@@ -158,7 +178,7 @@ setInterval(function(){
             .attr('class','explosions')        
             .transition()
             .duration(500)
-            .attr('r', 60)
+            .attr('r', function(d){return d})
             .style('fill','red')
             .style('opacity', .5)
             .transition()
