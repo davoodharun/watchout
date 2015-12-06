@@ -62,7 +62,7 @@
               .attr('cy', function(d) { return d.y; })
               .attr('r', function(d) { return d.r; })
               .call(drag)
-              .style('fill', 'black');
+              .style('fill', 'black')
 
 
 
@@ -82,7 +82,7 @@
       .data(createEnemies(gameOptions.nEnemies))
       .enter()
       .append('svg:image')
-      .attr('xlink:href','asteroid.png')
+      .attr('xlink:href',/*'asteroid.png'*/'http://cdn.osxdaily.com/wp-content/uploads/2007/05/spinning-beachball-of-death-mac.png')
       .attr('width','20')
       .attr('height', '20')
       .attr('x', function(d){return d.x})
@@ -149,24 +149,30 @@ setInterval(function(){
         }
         score = 0;
         var explosion = svgcontainer.selectAll('.explosions')
-            .data([])
+            .data([0])
             .enter()
             .append('svg:circle')
-            .attr('cx', 2)
-            .attr('cy', 2)
+            .attr('cx', playerX)
+            .attr('cy', playerY)
             .attr('r',7) 
             .attr('class','explosions')        
             .transition()
-            .duration(1000)
-            .attr('r', 7)
+            .duration(500)
+            .attr('r', 60)
             .style('fill','red')
+            .style('opacity', .5)
+            .transition()
+            .duration(500)
+            .attr('r', 0)
+            .style('fill','black')
+            .remove()
            
 
          d3.selectAll('.col')
           .data([collisions++])
           .text(function(d){ return d })  
 
-      }
+          }
     } 
 
   };
